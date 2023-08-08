@@ -1,54 +1,44 @@
 import React from 'react';
-import type { PropsWithChildren } from 'react';
-import { SafeAreaView, ScrollView, StatusBar, Text, useColorScheme, View } from 'react-native';
+import { ImageProps } from 'react-native';
+import { StyledComponent } from 'nativewind';
 
 import {
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+  ApplicationProvider,
+  Button,
+  Icon,
+  IconRegistry,
+  Layout,
+  Text,
+} from '@ui-kitten/components';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
+import * as eva from '@eva-design/eva';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+const HeartIcon = (props?: Partial<ImageProps>): React.ReactElement<ImageProps> => (
+  <Icon {...props} name='heart' />
+);
 
-function Section({ children, title }: SectionProps): JSX.Element {
+const App = (): JSX.Element => {
   return (
-    <View className='mt-8 px-2'>
-      <Text className='text-2xl text-black dark:text-white'>{title}</Text>
-      <Text className='mt-2 text-lg text-black dark:text-white'>{children}</Text>
-    </View>
+    <>
+      <IconRegistry icons={EvaIconsPack} />
+      <ApplicationProvider {...eva} theme={eva.dark}>
+        <StyledComponent component={Layout} className='flex-1 items-center justify-center'>
+          <StyledComponent component={Text} className='text-center' category='h1'>
+            Welcome to UI Kitten 😻
+          </StyledComponent>
+          <StyledComponent component={Text} className='text-center' category='s1'>
+            Start with editing App.tsx to configure your App
+          </StyledComponent>
+          <StyledComponent component={Text} className='text-center' appearance='hint'>
+            For example, try changing theme to Dark by using eva.dark
+          </StyledComponent>
+          <StyledComponent component={Button} className='my-5' accessoryLeft={HeartIcon}>
+            LIKE
+          </StyledComponent>
+        </StyledComponent>
+      </ApplicationProvider>
+    </>
   );
-}
-
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = 'bg-neutral-300 dark:bg-slate-900';
-
-  return (
-    <SafeAreaView className={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView contentInsetAdjustmentBehavior='automatic' className={backgroundStyle}>
-        <Header />
-        <View className='bg-white dark:bg-black'>
-          <Section title='Step One'>
-            Edit <Text className='font-bold'>App.tsx</Text> to change this screen and then come back
-            to see your edits.
-          </Section>
-          <Section title='See Your Changes'>
-            <ReloadInstructions />
-          </Section>
-          <Section title='Debug'>
-            <DebugInstructions />
-          </Section>
-          <Section title='Learn More'>Read the docs to discover what to do next:</Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
+};
 
 export default App;
